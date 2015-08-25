@@ -10,13 +10,8 @@ import org.rev317.min.api.wrappers.Npc;
 import org.parabot.random.rdmfighter.Main;
 
 public class Attack implements Strategy {
-	/**
-	 * 
-	 */
+	
 	private final Main Core;
-	/**
-	 * @param main
-	 */
 	public Attack(Main main) {
 		Core = main;
 	}

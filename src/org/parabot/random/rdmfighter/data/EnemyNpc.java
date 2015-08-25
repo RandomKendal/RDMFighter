@@ -19,4 +19,12 @@ public enum EnemyNpc {
         this.name = name;
         this.npcId = new int[]{ npcId };
     }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public int[] getNpcID() {
+    	return npcId;
+    }
 }

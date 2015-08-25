@@ -20,11 +20,11 @@ import org.rev317.min.api.methods.Players;
 import org.rev317.min.api.methods.Skill;
 import org.rev317.min.api.wrappers.Npc;
 
-import rdmfighter.data.EnemyNpc;
-import rdmfighter.data.Food;
-import rdmfighter.strategies.Attack;
-import rdmfighter.strategies.Eat;
-import rdmfighter.strategies.Loot;
+import org.parabot.random.rdmfighter.data.EnemyNpc;
+import org.parabot.random.rdmfighter.data.Food;
+import org.parabot.random.rdmfighter.strategies.Attack;
+import org.parabot.random.rdmfighter.strategies.Eat;
+import org.parabot.random.rdmfighter.strategies.Loot;
 
 @ScriptManifest(
 		author = "Random (Kendal)", 
@@ -41,19 +41,16 @@ public class Main extends Script implements Paintable {
 	public Timer scriptTimer = new Timer();
 	public ScriptManifest Manifest = (ScriptManifest) Main.class.getAnnotation(ScriptManifest.class);
 	
-	public int food_index = 0;
-	public int npc_index = 0;
 	public int eatAtPercent = 60;
 	public int[] LootableItems;
-	public Food FOOD;
-	public EnemyNpc ENEMY_NPC;
+	public Food FOOD = Food.LOBSTER;
+	public EnemyNpc ENEMY_NPC = EnemyNpc.GOBLIN;
 	
-	boolean startScript = false;
+	public boolean startScript = false;
 
-	//Paint Variables:
-	String enemyInformation;
-	String foodInformation;
-	int biggestWidth = -1;
+	private String enemyInformation;
+	private String foodInformation;
+	private int biggestWidth = -1;
 	
 	
 	@Override
@@ -64,9 +61,6 @@ public class Main extends Script implements Paintable {
 		
 		if(!startScript)
 			return false;
-        
-		FOOD = Food.values()[food_index];
-		ENEMY_NPC = EnemyNpc.values()[npc_index];
 		
 		Context.getInstance().getRandomHandler().clearActiveRandoms();
 		
@@ -74,10 +68,10 @@ public class Main extends Script implements Paintable {
 		Strategies.add(new Loot(this));
 		Strategies.add(new Attack(this));
 
-        System.out.println("");
+        System.out.println();
         System.out.println("=== Starting Script! ===");
-        System.out.println("Attacking: " + ENEMY_NPC.name);
-        System.out.println("Eating: " + FOOD.name + " at " + eatAtPercent + "% health");
+        System.out.println("Attacking: " + ENEMY_NPC.getName());
+        System.out.println("Eating: " + FOOD.getName() + " at " + eatAtPercent + "% health");
         
         if(LootableItems != null) {
 	        String Lootables = "";
@@ -89,10 +83,10 @@ public class Main extends Script implements Paintable {
 	        System.out.println("Not looting anything.");
 		}
         System.out.println("========================");
-        System.out.println("");
+        System.out.println();
         
-        enemyInformation = ENEMY_NPC.name + " (#" + ENEMY_NPC.npcId[0] + ")";
-		foodInformation = FOOD.name + " at " + eatAtPercent + "%";
+        enemyInformation = ENEMY_NPC.getName() + " (#" + ENEMY_NPC.getNpcID()[0] + ")";
+		foodInformation = FOOD.getName() + " at " + eatAtPercent + "%";
         
 		provide(Strategies);
 		return true;

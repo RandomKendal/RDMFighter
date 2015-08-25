@@ -13,4 +13,12 @@ public enum Food {
         this.name = name;
         this.itemID = itemID;
     }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public int getItemID() {
+    	return itemID;
+    }
 }

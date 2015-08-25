@@ -18,28 +18,25 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import rdmfighter.data.EnemyNpc;
-import rdmfighter.data.Food;
+import org.parabot.random.rdmfighter.data.EnemyNpc;
+import org.parabot.random.rdmfighter.data.Food;
 
 public class GUI extends JFrame implements ActionListener, ChangeListener {
-	/**
-	 * 
-	 */
 	private final Main Core;
 
 	private static final long serialVersionUID = 7519153641069525353L;
 
 	private JPanel contentPane;
 	
-	JTextField textField;
-	JButton btnStart;
-	JComboBox<String> comboFoodToEat;
-	JComboBox<String> comboNpcToKill;
-	JLabel lblPercent;
-	JSlider sliderEatAt;
+	private final JTextField textField;
+	private final JButton btnStart;
+	private final JComboBox<String> comboFoodToEat;
+	private final JComboBox<String> comboNpcToKill;
+	private final JLabel lblPercent;
+	private final JSlider sliderEatAt;
 	
-	String[] FoodNames = new String[Food.values().length];
-	String[] EnemyNpcNames = new String[EnemyNpc.values().length];
+	private final String[] FoodNames = new String[Food.values().length];
+	private final String[] EnemyNpcNames = new String[EnemyNpc.values().length];
 	
 	public GUI(Main main) {
 		Core = main;
@@ -129,8 +126,8 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnStart)){
-			Core.food_index = comboFoodToEat.getSelectedIndex();
-			Core.npc_index = comboNpcToKill.getSelectedIndex();
+			Core.FOOD = Food.values()[comboFoodToEat.getSelectedIndex()];
+			Core.ENEMY_NPC = EnemyNpc.values()[comboFoodToEat.getSelectedIndex()];
 			Core.eatAtPercent = sliderEatAt.getValue();
 			if(textField.getText() != "") {
 				try {
@@ -144,6 +141,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 					System.out.println("Invalid input for loots! Continueing without looting.");
 				}
 			}
+			
 			Core.startScript = true;
             setVisible(false);
 		}

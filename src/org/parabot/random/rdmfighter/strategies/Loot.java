@@ -8,14 +8,8 @@ import org.rev317.min.api.wrappers.GroundItem;
 import org.parabot.random.rdmfighter.Main;
 
 public class Loot implements Strategy {
-	/**
-	 * 
-	 */
+	
 	private final Main Core;
-
-	/**
-	 * @param main
-	 */
 	public Loot(Main main) {
 		Core = main;
 	}

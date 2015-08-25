@@ -7,17 +7,11 @@ import org.rev317.min.api.methods.Menu;
 import org.rev317.min.api.methods.Skill;
 import org.rev317.min.api.wrappers.Item;
 
-import rdmfighter.Main;
+import org.parabot.random.rdmfighter.Main;
 
 public class Eat implements Strategy {
-	/**
-	 * 
-	 */
+	
 	private final Main Core;
-
-	/**
-	 * @param main
-	 */
 	public Eat(Main main) {
 		Core = main;
 	}
