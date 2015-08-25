@@ -23,7 +23,7 @@ import org.parabot.random.rdmfighter.data.Food;
 import org.parabot.random.rdmfighter.data.Variables;
 
 public class GUI extends JFrame implements ActionListener, ChangeListener {
-	private final Main Core;
+	private final Main main;
 
 	private static final long serialVersionUID = 7519153641069525353L;
 
@@ -39,8 +39,8 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 	private final String[] FoodNames = new String[Food.values().length];
 	private final String[] EnemyNpcNames = new String[EnemyNpc.values().length];
 	
-	public GUI(Main main) {
-		Core = main;
+	public GUI(Main mainClass) {
+		main = mainClass;
 		for(int id = 0; id < FoodNames.length; id++) {
 			FoodNames[id] = Food.values()[id].getName();
 		}
@@ -76,7 +76,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 		lblPercent.setBounds(124, 173, 46, 14);
 		contentPane.add(lblPercent);
 		
-		JLabel lblNewLabel = new JLabel("RDM Fighter v" + Core.Manifest.version());
+		JLabel lblNewLabel = new JLabel("RDM Fighter v" + main.Manifest.version());
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 17));
 		lblNewLabel.setBounds(51, -1, 178, 43);
@@ -142,7 +142,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 			
 			Variables.configureSettings(sliderEatAt.getValue(), lootableItems, 
 					Food.values()[comboFoodToEat.getSelectedIndex()], EnemyNpc.values()[comboFoodToEat.getSelectedIndex()]);
-			Core.startScript = true;
+			main.startScript = true;
 			
             setVisible(false);
 		}

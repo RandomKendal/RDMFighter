@@ -7,11 +7,11 @@ public enum Food {
     LOBSTER("Lobster", 380);
     
     private final String name;
-    private final int itemID;
+    private final int itemId;
     
-    private Food(String name, int itemID) {
+    private Food(String name, int itemId) {
         this.name = name;
-        this.itemID = itemID;
+        this.itemId = itemId;
     }
     
     public String getName() {
@@ -19,6 +19,6 @@ public enum Food {
     }
     
     public int getItemID() {
-    	return itemID;
+    	return itemId;
     }
 }
