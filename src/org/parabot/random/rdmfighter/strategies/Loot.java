@@ -1,28 +1,21 @@
 package org.parabot.random.rdmfighter.strategies;
 
 import org.parabot.environment.api.utils.Time;
+import org.parabot.environment.scripts.framework.SleepCondition;
 import org.parabot.environment.scripts.framework.Strategy;
 import org.rev317.min.api.methods.GroundItems;
+import org.rev317.min.api.methods.Inventory;
 import org.rev317.min.api.wrappers.GroundItem;
-
-import org.parabot.random.rdmfighter.Main;
+import org.parabot.random.rdmfighter.data.Variables;
 
 public class Loot implements Strategy {
-	
-	private final Main Core;
-	public Loot(Main main) {
-		Core = main;
-	}
-
 	GroundItem[] foundItems;
 	
 	@Override
 	public boolean activate() {
-		if(Core.LootableItems != null) {
-			foundItems = GroundItems.getNearest(Core.LootableItems);
-			if(foundItems.length > 0) {
-				return true;
-			}
+		if(Variables.getLootableItems() != null) {
+			foundItems = GroundItems.getNearest(Variables.getLootableItems());
+			return (foundItems.length > 0 && foundItems != null);
 		}
 		return false;
 	}
@@ -30,8 +23,14 @@ public class Loot implements Strategy {
 	@Override
 	public void execute() {
 		for(GroundItem foundItem : foundItems) {
+			final int count = Inventory.getCount(true);
 			foundItem.take();
-			Time.sleep(foundItem.distanceTo() * 400 + 400);
+			Time.sleep(new SleepCondition() {
+                @Override
+                public boolean isValid() {
+                      return (Inventory.getCount(true) != count);
+                }
+			}, (foundItem.distanceTo() * 400 + 400));
 		}
 	}
 }

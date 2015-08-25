@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 
 import org.parabot.random.rdmfighter.data.EnemyNpc;
 import org.parabot.random.rdmfighter.data.Food;
+import org.parabot.random.rdmfighter.data.Variables;
 
 public class GUI extends JFrame implements ActionListener, ChangeListener {
 	private final Main Core;
@@ -41,10 +42,10 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 	public GUI(Main main) {
 		Core = main;
 		for(int id = 0; id < FoodNames.length; id++) {
-			FoodNames[id] = Food.values()[id].name;
+			FoodNames[id] = Food.values()[id].getName();
 		}
 		for(int id = 0; id < EnemyNpcNames.length; id++) {
-			EnemyNpcNames[id] = EnemyNpc.values()[id].name;
+			EnemyNpcNames[id] = EnemyNpc.values()[id].getName();
 		}
 		
 		setResizable(false);
@@ -126,23 +127,23 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnStart)){
-			Core.FOOD = Food.values()[comboFoodToEat.getSelectedIndex()];
-			Core.ENEMY_NPC = EnemyNpc.values()[comboFoodToEat.getSelectedIndex()];
-			Core.eatAtPercent = sliderEatAt.getValue();
+			int[] lootableItems = null;
 			if(textField.getText() != "") {
 				try {
 					String[] strArray = textField.getText().replaceAll("\\s","").split(",");
-					int[] intArray = new int[strArray.length];
+					lootableItems = new int[strArray.length];
 					for(int i = 0; i < strArray.length; i++) {
-					    intArray[i] = Integer.parseInt(strArray[i]);
+						lootableItems[i] = Integer.parseInt(strArray[i]);
 					}
-					Core.LootableItems = intArray;
 				} catch (Exception _e) {
 					System.out.println("Invalid input for loots! Continueing without looting.");
 				}
 			}
 			
+			Variables.configureSettings(sliderEatAt.getValue(), lootableItems, 
+					Food.values()[comboFoodToEat.getSelectedIndex()], EnemyNpc.values()[comboFoodToEat.getSelectedIndex()]);
 			Core.startScript = true;
+			
             setVisible(false);
 		}
 	}

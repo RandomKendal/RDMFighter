@@ -3,7 +3,6 @@ package org.parabot.random.rdmfighter;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.parabot.core.Context;
@@ -14,14 +13,8 @@ import org.parabot.environment.scripts.Category;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.ScriptManifest;
 import org.parabot.environment.scripts.framework.Strategy;
-import org.rev317.min.Loader;
-import org.rev317.min.api.methods.Npcs;
-import org.rev317.min.api.methods.Players;
-import org.rev317.min.api.methods.Skill;
 import org.rev317.min.api.wrappers.Npc;
-
-import org.parabot.random.rdmfighter.data.EnemyNpc;
-import org.parabot.random.rdmfighter.data.Food;
+import org.parabot.random.rdmfighter.data.Variables;
 import org.parabot.random.rdmfighter.strategies.Attack;
 import org.parabot.random.rdmfighter.strategies.Eat;
 import org.parabot.random.rdmfighter.strategies.Loot;
@@ -41,11 +34,6 @@ public class Main extends Script implements Paintable {
 	public Timer scriptTimer = new Timer();
 	public ScriptManifest Manifest = (ScriptManifest) Main.class.getAnnotation(ScriptManifest.class);
 	
-	public int eatAtPercent = 60;
-	public int[] LootableItems;
-	public Food FOOD = Food.LOBSTER;
-	public EnemyNpc ENEMY_NPC = EnemyNpc.GOBLIN;
-	
 	public boolean startScript = false;
 
 	private String enemyInformation;
@@ -56,26 +44,28 @@ public class Main extends Script implements Paintable {
 	@Override
 	public boolean onExecute() {
 		GUI g = new GUI(this);
-        while(g.isVisible()){
-                Time.sleep(100);}
+        while(g.isVisible()) {
+        	Time.sleep(100);
+        }
 		
-		if(!startScript)
+		if(!startScript) {
 			return false;
+		}
 		
 		Context.getInstance().getRandomHandler().clearActiveRandoms();
 		
-		Strategies.add(new Eat(this));
-		Strategies.add(new Loot(this));
-		Strategies.add(new Attack(this));
+		Strategies.add(new Eat());
+		Strategies.add(new Loot());
+		Strategies.add(new Attack());
 
         System.out.println();
         System.out.println("=== Starting Script! ===");
-        System.out.println("Attacking: " + ENEMY_NPC.getName());
-        System.out.println("Eating: " + FOOD.getName() + " at " + eatAtPercent + "% health");
+        System.out.println("Attacking: " + Variables.getNpc().getName());
+        System.out.println("Eating: " + Variables.getFood().getName() + " at " + Variables.getEatPercentage() + "% health");
         
-        if(LootableItems != null) {
+        if(Variables.getLootableItems() != null) {
 	        String Lootables = "";
-	        for(int Lootable : LootableItems) {
+	        for(int Lootable : Variables.getLootableItems()) {
 	        	Lootables += Lootable + ", ";
 	        }
 	        System.out.println("Looting: " + Lootables);
@@ -85,8 +75,8 @@ public class Main extends Script implements Paintable {
         System.out.println("========================");
         System.out.println();
         
-        enemyInformation = ENEMY_NPC.getName() + " (#" + ENEMY_NPC.getNpcID()[0] + ")";
-		foodInformation = FOOD.getName() + " at " + eatAtPercent + "%";
+        enemyInformation = Variables.getNpc().getName() + " (#" + Variables.getNpc().getNpcID()[0] + ")";
+		foodInformation = Variables.getFood().getName() + " at " + Variables.getEatPercentage() + "%";
         
 		provide(Strategies);
 		return true;
@@ -96,46 +86,6 @@ public class Main extends Script implements Paintable {
 	public void onFinish() {
         System.out.println("Ran " + Manifest.name() + " v" + Manifest.version() + " for: " + scriptTimer.toString());
         System.out.println("Thank you for using my script!");
-	}
-	
-	public Npc getHittingNPC() {
-		for(Npc checker : Npcs.getNearest()) {
-			try {
-				if(checker.getInteractingCharacter().getIndex() == Players.getMyPlayer().getIndex() 
-						&& Players.getMyPlayer().isInCombat()) {
-					return checker;
-				}
-			} catch (Exception _e) {}
-		}
-		return null;
-	}
-	
-	public Npc getAttackingNPC() {
-		for(Npc checker : Npcs.getNearest()) {
-			try {
-				if(checker.getInteractingCharacter().getIndex() == Players.getMyPlayer().getIndex() 
-						&& Players.getMyPlayer().getInteractingCharacter().getIndex() == checker.getIndex()) {
-					return checker;
-				}
-			} catch (Exception _e) {}
-		}
-		return null;
-	}
-	
-	public String getText(int id) {
-        try {
-            Field text = Loader.getClient().getInterfaceCache()[id].getClass().getDeclaredField("R");
-            text.setAccessible(true);
-
-            return (String) text.get(Loader.getClient().getInterfaceCache()[id]);
-
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            return null;
-        }
-    }
-	
-	public Integer getHPLevel() {
-		return ((Skill.HITPOINTS.getRealLevel() > 99) ? 99 : Skill.HITPOINTS.getRealLevel());
 	}
 	
 	@Override
@@ -166,7 +116,7 @@ public class Main extends Script implements Paintable {
 				drawDString(enemyInformation, 45, Y2, g, Color.white);
 				drawDString(foodInformation, 45, Y2 + 13, g, Color.white);
 				
-				Npc fightingNPC = getAttackingNPC();
+				Npc fightingNPC = Methods.getAttackingNPC();
 				if(fightingNPC != null && fightingNPC.getMaxHealth() > 0) {
 					double percentHealth = ((double) fightingNPC.getHealth()) / fightingNPC.getMaxHealth();
 					g.setColor(new Color(0, 0, 0, 160));
@@ -175,10 +125,11 @@ public class Main extends Script implements Paintable {
 					g.fillRect(6, 76, 148, 13);
 					g.setColor(new Color(0, 153, 0));
 					g.fillRect(6, 76, (int) (((double) 148) * percentHealth), 13);
-					if(fightingNPC.getHealth() != 0)
+					if(fightingNPC.getHealth() != 0) {
 						drawDString(fightingNPC.getHealth() + " / " + fightingNPC.getMaxHealth() + " HP", 10, 87, g, Color.white);
-					else
+					} else {
 						drawDString("(DEAD)", 10, 87, g, Color.white);
+					}
 				}
 			} catch (Exception _e) {}
 		}

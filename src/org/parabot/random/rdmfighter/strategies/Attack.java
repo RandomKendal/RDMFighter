@@ -6,28 +6,19 @@ import org.rev317.min.api.methods.Inventory;
 import org.rev317.min.api.methods.Npcs;
 import org.rev317.min.api.wrappers.Item;
 import org.rev317.min.api.wrappers.Npc;
-
-import org.parabot.random.rdmfighter.Main;
+import org.parabot.random.rdmfighter.data.Variables;
+import org.parabot.random.rdmfighter.Methods;
 
 public class Attack implements Strategy {
-	
-	private final Main Core;
-	public Attack(Main main) {
-		Core = main;
-	}
 
-	Npc[] enemyNPCs;
+	Npc[] enemyNpcs;
 	@Override
 	public boolean activate() {
-		Item[] foodId = Inventory.getItems(Core.FOOD.itemID);
+		Item[] foodId = Inventory.getItems(Variables.getFood().getItemID());
 		if(foodId.length > 0) {
-			if(Core.getAttackingNPC() == null) {
-				try {
-					enemyNPCs = Npcs.getNearest(Core.ENEMY_NPC.npcId);
-					if(enemyNPCs.length > 0) {
-						return true;
-					}
-				} catch (Exception _e) {}
+			if(Methods.getAttackingNPC() == null) {
+				enemyNpcs = Npcs.getNearest(Variables.getNpc().getNpcID());
+				return (enemyNpcs.length > 0 && enemyNpcs != null);
 			}
 		} else {
 			System.out.println("Not going to attack anything; you have no valid food left!");
@@ -38,19 +29,19 @@ public class Attack implements Strategy {
 
 	@Override
 	public void execute() {
-		if(Core.getHittingNPC() != null) {
-			Npc enemyNPC = Core.getHittingNPC();
-			if(enemyNPC.getHealth() != 0 && enemyNPC.getMaxHealth() >= 0 
-					|| enemyNPC.getHealth() == 0 && enemyNPC.getMaxHealth() == 0) {
-				enemyNPC.interact(1);
-				Time.sleep(enemyNPC.distanceTo() * 400 + 400);
+		if(Methods.getHittingNPC() != null) {
+			Npc enemyNpc = Methods.getHittingNPC();
+			if(enemyNpc.getHealth() != 0 && enemyNpc.getMaxHealth() >= 0 
+					|| enemyNpc.getHealth() == 0 && enemyNpc.getMaxHealth() == 0) {
+				enemyNpc.interact(1);
+				Time.sleep(enemyNpc.distanceTo() * 400 + 400);
 				return;
 			}
 		}
-		for(Npc enemyNPC : enemyNPCs) {
-			if(!enemyNPC.isInCombat()) {
-				enemyNPC.interact(1);
-				Time.sleep(enemyNPC.distanceTo() * 400 + 400);
+		for(Npc enemyNpc : enemyNpcs) {
+			if(!enemyNpc.isInCombat()) {
+				enemyNpc.interact(1);
+				Time.sleep(enemyNpc.distanceTo() * 400 + 400);
 				return;
 			}
 		}

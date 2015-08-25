@@ -6,8 +6,8 @@ public enum Food {
     SHARK("Shark", 386),
     LOBSTER("Lobster", 380);
     
-    public final String name;
-    public final int itemID;
+    private final String name;
+    private final int itemID;
     
     private Food(String name, int itemID) {
         this.name = name;
