@@ -22,11 +22,20 @@ public class Variables {
 	public static EnemyNpc getNpc() {
 		return selectedNpc;
 	}
+
+	public static void setEatPercentage(int percentage) {
+		eatAtPercent = percentage;
+	}
 	
-	public static void configureSettings(int eatpercentage, int[] lootables, Food food, EnemyNpc npc) {
-		eatAtPercent = eatpercentage;
+	public static void setLootableItems(int[] lootables) {
 		lootableItems = lootables;
+	}
+	
+	public static void setFood(Food food) {
 		selectedFood = food;
+	}
+	
+	public static void setNpc(EnemyNpc npc) {
 		selectedNpc = npc;
 	}
 }
