@@ -140,8 +140,11 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
 				}
 			}
 			
-			Variables.configureSettings(sliderEatAt.getValue(), lootableItems, 
-					Food.values()[comboFoodToEat.getSelectedIndex()], EnemyNpc.values()[comboFoodToEat.getSelectedIndex()]);
+			Variables.setEatPercentage(sliderEatAt.getValue());
+			Variables.setLootableItems(lootableItems);
+			Variables.setFood(Food.values()[comboFoodToEat.getSelectedIndex()]);
+			Variables.setNpc(EnemyNpc.values()[comboNpcToKill.getSelectedIndex()]);
+			
 			main.startScript = true;
 			
             setVisible(false);
