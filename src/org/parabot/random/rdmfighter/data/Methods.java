@@ -1,4 +1,4 @@
-package org.parabot.random.rdmfighter;
+package org.parabot.random.rdmfighter.data;
 
 import org.rev317.min.api.methods.Npcs;
 import org.rev317.min.api.methods.Players;
