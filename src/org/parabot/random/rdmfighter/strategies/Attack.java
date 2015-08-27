@@ -6,8 +6,8 @@ import org.rev317.min.api.methods.Inventory;
 import org.rev317.min.api.methods.Npcs;
 import org.rev317.min.api.wrappers.Item;
 import org.rev317.min.api.wrappers.Npc;
+import org.parabot.random.rdmfighter.data.Methods;
 import org.parabot.random.rdmfighter.data.Variables;
-import org.parabot.random.rdmfighter.Methods;
 
 public class Attack implements Strategy {
 

@@ -7,7 +7,7 @@ import org.rev317.min.api.methods.Inventory;
 import org.rev317.min.api.methods.Menu;
 import org.rev317.min.api.methods.Skill;
 import org.rev317.min.api.wrappers.Item;
-import org.parabot.random.rdmfighter.Methods;
+import org.parabot.random.rdmfighter.data.Methods;
 import org.parabot.random.rdmfighter.data.Variables;
 
 public class Eat implements Strategy {
