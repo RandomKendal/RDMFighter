@@ -93,7 +93,7 @@ public class Main extends Script implements Paintable {
 	public void paint(Graphics g) {
 		if(startScript) {
 			Graphics2D graphs = (Graphics2D) g;
-			Color orange = new Color(255, 152, 31);
+			Color colorOrange = new Color(255, 152, 31);
 				
 			if(biggestStringWidth == -1) {
 				int enemyStringWidth = (int) graphs.getFontMetrics().getStringBounds(enemyInformation, graphs).getWidth();
@@ -108,11 +108,11 @@ public class Main extends Script implements Paintable {
 			int Y1 = 16;
 			int Y2 = 48;
 				
-			drawDoubleString(Manifest.name() + " v" + Manifest.version(), 6, Y1, graphs, orange);
-			drawDoubleString("Runtime: " + scriptTimer.toString(), 6, Y1 + 13, graphs, orange);
+			drawDoubleString(Manifest.name() + " v" + Manifest.version(), 6, Y1, graphs, colorOrange);
+			drawDoubleString("Runtime: " + scriptTimer.toString(), 6, Y1 + 13, graphs, colorOrange);
 	
-			drawDoubleString("Killing:", 6, Y2, graphs, orange);
-			drawDoubleString("Food:", 6, Y2 + 13, graphs, orange);
+			drawDoubleString("Killing:", 6, Y2, graphs, colorOrange);
+			drawDoubleString("Food:", 6, Y2 + 13, graphs, colorOrange);
 			drawDoubleString(enemyInformation, 45, Y2, graphs, Color.white);
 			drawDoubleString(foodInformation, 45, Y2 + 13, graphs, Color.white);
 				
