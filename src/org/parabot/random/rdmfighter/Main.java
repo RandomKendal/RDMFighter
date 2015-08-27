@@ -93,7 +93,7 @@ public class Main extends Script implements Paintable {
 	public void paint(Graphics g) {
 		if(startScript) {
 			Graphics2D graphs = (Graphics2D) g;
-			Color colorOrange = new Color(255, 152, 31);
+			Color colOrange = new Color(255, 152, 31);
 				
 			if(biggestStringWidth == -1) {
 				int enemyStringWidth = (int) graphs.getFontMetrics().getStringBounds(enemyInformation, graphs).getWidth();
@@ -108,11 +108,11 @@ public class Main extends Script implements Paintable {
 			int Y1 = 16;
 			int Y2 = 48;
 				
-			drawDoubleString(Manifest.name() + " v" + Manifest.version(), 6, Y1, graphs, colorOrange);
-			drawDoubleString("Runtime: " + scriptTimer.toString(), 6, Y1 + 13, graphs, colorOrange);
+			drawDoubleString(Manifest.name() + " v" + Manifest.version(), 6, Y1, graphs, colOrange);
+			drawDoubleString("Runtime: " + scriptTimer.toString(), 6, Y1 + 13, graphs, colOrange);
 	
-			drawDoubleString("Killing:", 6, Y2, graphs, colorOrange);
-			drawDoubleString("Food:", 6, Y2 + 13, graphs, colorOrange);
+			drawDoubleString("Killing:", 6, Y2, graphs, colOrange);
+			drawDoubleString("Food:", 6, Y2 + 13, graphs, colOrange);
 			drawDoubleString(enemyInformation, 45, Y2, graphs, Color.white);
 			drawDoubleString(foodInformation, 45, Y2 + 13, graphs, Color.white);
 				
@@ -134,11 +134,11 @@ public class Main extends Script implements Paintable {
 		}
 	}
 	
-	public void drawDoubleString(String text, int x, int y, Graphics2D g, Color col) {
-		g.setColor(Color.black);
-		g.drawString(text, x + 1, y + 1);
-		g.setColor(new Color(255, 152, 31));
-		g.setColor(col);
-		g.drawString(text, x, y);
+	public void drawDoubleString(String text, int x, int y, Graphics2D graphics, Color color) {
+		graphics.setColor(Color.black);
+		graphics.drawString(text, x + 1, y + 1);
+		graphics.setColor(new Color(255, 152, 31));
+		graphics.setColor(color);
+		graphics.drawString(text, x, y);
 	}
 }
